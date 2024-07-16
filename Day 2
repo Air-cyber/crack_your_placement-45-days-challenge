@@ -1,0 +1,148 @@
+1. Binary sum 
+
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        int n1 = a.length();
+        int n2 = b.length();
+        int i = n1 - 1, j = n2 - 1;
+        string ans = "";
+        int carry = 0;
+        
+       
+        while (i >= 0 || j >= 0 || carry) {
+            int sum = carry;
+            if (i >= 0) sum += a[i--] - '0';
+            if (j >= 0) sum += b[j--] - '0';
+            
+            carry = sum / 2;
+            sum = sum % 2;
+            ans += sum + '0';
+        }
+        
+    
+        reverse(ans.begin(), ans.end());
+        return ans;
+    }
+};
+
+2.Subset ||
+
+class Solution {
+public:
+    void solve(vector<int>& nums, set<vector<int>>& ans, vector<int>& temp, int idx) {
+        ans.insert(temp);  // Insert the current subset
+        
+        for (int i = idx; i < nums.size(); i++) {
+            // To avoid duplicates
+            if (i > idx && nums[i] == nums[i - 1]) continue;
+
+            temp.push_back(nums[i]);
+            solve(nums, ans, temp, i + 1);
+            temp.pop_back();
+        }
+    }
+
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        set<vector<int>> ans;
+        vector<int> temp;
+
+       
+        sort(nums.begin(), nums.end());
+
+        solve(nums, ans, temp, 0); 
+
+       
+        vector<vector<int>> result(ans.begin(), ans.end());
+
+        return result;
+    }
+};
+
+3.Permutation ||
+
+class Solution {
+    vector<vector<int>> ans;
+    void solve(int i,vector<int> nums)
+    {
+        if(i==nums.size())
+        ans.push_back(nums);
+        for(int j=i;j<nums.size();j++)
+        {
+            if(j!=i && nums[j]==nums[i])continue;
+            swap(nums[i],nums[j]);
+            solve(i+1,nums);
+            
+        }
+
+
+    }
+public:
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        solve(0,nums);
+        return ans;
+
+    }
+};
+
+4.Combination sum ||
+
+class Solution {
+public:
+    void solve(vector<int>& can, int target, set<vector<int>>& result,vector<int> &temp,int i){
+        if(target==0)
+        {
+            result.insert(temp);
+            return;
+        }
+        if(target<0||i>=can.size())
+        return;
+        temp.push_back(can[i]);
+        solve(can,target-can[i],result,temp,i+1);
+        solve(can,target-can[i],result,temp,i);
+        temp.pop_back();
+        solve(can,target,result,temp,i+1);
+        return ;
+        
+    }
+    vector<vector<int>> combinationSum(vector<int>& can, int target) {
+        set<vector<int>> result;
+        vector<int> temp;
+        solve(can,target,result,temp,0);
+         vector<vector<int>> ans;
+         
+        for(auto &it:result)
+        {
+            ans.push_back(it);
+        }
+        return ans;
+    }
+};
+
+4. Combinations
+class Solution {
+public:
+    void solve(int n,int k,vector<vector<int>>&result,vector<int>&temp,int i){
+        if(k==0)
+        {
+            result.push_back(temp);
+            return ;
+        }
+        if(i>n)
+        return;
+        temp.push_back(i);
+        solve(n,k-1,result,temp,i+1);
+        temp.pop_back();
+        solve(n,k,result,temp,i+1);
+        return ;
+    }
+    vector<vector<int>> combine(int n, int k) {
+        if(k>n)
+        return {{}};
+         vector<vector<int>> result;
+         vector<int> temp;
+         solve(n,k,result,temp,1);
+         return result;
+    }
+};
