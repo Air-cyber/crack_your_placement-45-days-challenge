@@ -1,0 +1,119 @@
+1.Climbing stairs
+class Solution {
+public:
+    int climbStairs(int n) {
+        if (n == 0 || n == 1) {
+            return 1;
+        }
+        int prev = 1, curr = 1;
+        for (int i = 2; i <= n; i++) {
+            int temp = curr;
+            curr = prev + curr;
+            prev = temp;
+        }
+        return curr;
+    }
+};
+
+2.Counting Bits
+class Solution {
+public:
+    vector<int> countBits(int n) {
+        vector<int> t(n+1);
+         t[0] = 0;
+        for(int i = 1; i<=n; ++i)
+            t[i] = t[i/2] + i%2;
+        
+        return t;  
+    }
+};
+
+3.Longest increasing subsequence
+class Solution {
+public:
+int n;
+int dp[2501][2501];
+
+    int solve(int i,int prev,vector<int>&nums)
+    {
+        if(i>=n)
+        return 0;
+        int ans=0;
+        if(prev!=-1&&dp[i][prev]!=-1)
+        return dp[i][prev];
+        if(prev==-1||nums[i]>nums[prev])
+        {
+             ans=1+solve(i+1,i,nums);
+        }
+        int skip=solve(i+1,prev,nums);
+        if(prev!=-1)
+         dp[i][prev]=max(ans,skip);
+        return max(ans,skip);
+    }
+    int lengthOfLIS(vector<int>& nums) {
+        n=nums.size();
+        memset(dp,-1,sizeof(dp));
+        return solve(0,-1,nums);
+    }
+};
+
+4.Decode ways
+class Solution {
+public:
+    int n;
+    int t[101];
+    int solve(string &s,int i)
+    {
+        if(t[i]!=-1)
+        return t[i];
+        if(i==n)
+        {
+            t[i]=1;
+            return t[i];
+        }
+        if(s[i]=='0')
+        return 0;
+        int result=solve(s,i+1);
+        t[i]=result;
+        if(i+1<n)
+        {
+            if(s[i]=='1'||(s[i]=='2'&&s[i+1]<'7'))
+            result+=solve(s,i+2);
+            t[i]=result;
+        }
+        return result;
+    }
+    int numDecodings(string s) {
+        n=s.length();
+        memset(t,-1, sizeof(t));
+        return solve(s,0);
+        
+    }
+};
+
+5.Longest common subsequence
+class Solution{
+    public:
+    
+    int longestCommonSubstr (string t1, string t2, int n, int m)
+    {
+        vector<int> prev(m+1,0), cur(m+1,0);
+        int ans=0;
+
+        //nested loops..
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=m;j++){
+                if(t1[i-1]==t2[j-1]){ 
+                    cur[j]=1+prev[j-1];
+                    ans=max(ans,cur[j]);
+                }
+                
+                else{
+                    cur[j]=0;
+                }
+            }
+            prev=cur;
+        }
+        return ans;
+    }
+};
