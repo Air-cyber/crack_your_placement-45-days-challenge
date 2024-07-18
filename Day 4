@@ -1,0 +1,231 @@
+1.Find the index of first occurence 
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        int n=needle.length();
+        int m=haystack.length();
+        if(m==n)
+        {
+            if(haystack==needle)
+            return 0;
+            return -1;
+        }
+        for(int i=0;i<m;i++)
+        {
+            if(i+n>m) break;
+            string s=haystack.substr(i,n);
+            if(s==needle)
+            return i;
+        }
+        return -1;
+    }
+};
+
+2.Print all duplicates
+
+void printDups(string str)
+{
+    unordered_map<char, int> count;
+    for (int i = 0; i < str.length(); i++) {
+        count[str[i]]++;
+    }
+    // iterating through the unordered map
+    for (auto it : count) {
+        
+        if (it.second > 1)
+            cout << it.first << ", count = " << it.second
+                 << "\n";
+    }
+}
+
+3. Minimum moves to make array equal ||
+
+class Solution {
+public:
+    int minMoves2(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        int n=nums.size();
+        int mid=n/2;
+        int i=0,j=n-1;
+        int ans=0;
+        while(i<mid)
+        {
+           
+            ans+=nums[mid]-nums[i];
+            i++;
+            
+        }
+         while(j>mid)
+        {
+            ans+=nums[j]-nums[mid];
+            j--;
+        }
+        return ans;
+    }
+};
+
+4. Valid parantheses 
+
+class Solution {
+public:
+    bool isValid(string s) {
+       stack<char> st;
+        st.push(' ');
+        
+        for(int i=0; i<s.size(); i++){
+            if(s[i]=='(') 
+            st.push(')');
+            else if(s[i]=='[') 
+            st.push(']');
+            else if(s[i]=='{') 
+            st.push('}');
+            
+            else if(st.top()!=s[i]) 
+            return false;
+            else st.pop();
+        }
+        if(st.size()>1){
+            return false;
+        }
+        return true;
+    }
+};
+
+5.Excel sheet column
+
+class Solution {
+public:
+    string convertToTitle(int n) {
+       string str="";
+        
+        while(n > 0){
+            char ch = char(ceil((n-1)%26 + 65));
+            str = ch+str;
+            n = (n-1)/26;
+        }
+        return str;
+    }
+};
+
+6.Product of Array Puzzle
+
+vector<long long int> productExceptSelf(vector<long long int>& nums, int n) {
+       
+        //vector<long long int>code here   
+        
+        long long int ans=1;
+        set<int> st;
+        bool flag=false;
+        for(int i=0;i<n;i++)
+        {
+            if(nums[i]!=0)
+            ans*=nums[i];
+            else
+            {
+                st.insert(i);
+                flag=true;
+            }
+            
+        }
+        vector<long long int> result(n,ans);
+        if(flag==false)
+        {
+            for(int i=0;i<n;i++)
+         {
+            result[i]/=nums[i];
+         }
+        }
+        else
+        {
+            if(st.size()==1)
+            {
+                  for(int i=0;i<n;i++)
+                  {
+                      if(st.find(i)==st.end())
+                      result[i]=0;
+                      else
+                      result[i]=ans;
+                  }
+                    
+            }
+            else
+            {
+                for(int i=0;i<n;i++)
+                  {
+                      
+                      result[i]=0;
+                     
+                  }
+            }
+            
+          
+        }
+        
+        return result;
+        
+    }
+};
+
+7.Maximum Product of 3 numbers
+
+class Solution {
+public:
+    int maximumProduct(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
+        return max(nums[n - 1] * nums[n - 2] * nums[n - 3],
+                   nums[0] * nums[1] * nums[n - 1]);
+    }
+};
+
+8.Longest Common Prefix
+
+class Solution {
+public:
+   string longestCommonPrefix(vector<string>& strs) {
+        ios_base::sync_with_stdio(0);
+        cin.tie(0);
+        cout.tie(0);
+        sort(strs.begin(),strs.end());
+        int a=strs.size();
+        string n=strs[0],m=strs[a-1],ans="";
+        for(int i=0;i<n.size();i++){
+            if(n[i]==m[i]){ans+=n[i];}
+            else break;
+        }
+        return ans;
+    }
+};
+
+9.Valid Palindrome ||
+
+class Solution {
+public:
+    bool check(string s,int i,int j){
+        while(i<=j)
+        {
+            if(s[i]!=s[j]) return false;
+            i++;
+            j--;
+        }
+        return true;
+    }
+
+    bool validPalindrome(string s) {
+        int i=0,j=s.size()-1;
+        while(i<=j){
+            if(s[i]!=s[j]){
+                return check(s,i+1,j) || check(s,i,j-1);
+            }
+            else{
+                i++;
+                j--;
+            }
+        }
+        return true;
+    }
+};
+
+
+
+
