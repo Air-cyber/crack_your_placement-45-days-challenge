@@ -1,0 +1,145 @@
+1.Container with most water
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int left = 0;
+        int right = height.size() - 1;
+        int maxArea = 0;
+
+        while (left < right) {
+            int currentArea = min(height[left], height[right]) * (right - left);
+            maxArea = max(maxArea, currentArea);
+
+            if (height[left] < height[right]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+
+        return maxArea;
+    }
+};
+
+2. 3SUM
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        int n=nums.size();
+        sort(nums.begin(),nums.end());
+        set<vector<int>>st;
+        for(int i=0;i<n-2;i++)
+        {
+           int k=i+1,j=n-1;
+            while(k<j)
+            {
+                if(nums[k]+nums[j]==(-nums[i]))
+                {
+                     st.insert({nums[i],nums[k],nums[j]});
+                     k++;
+                     j--;
+                }
+                else{
+                    if(nums[k]+nums[j]>(-nums[i]))
+                        j--;
+                    else
+                    k++;
+                }
+               
+
+            }
+             if(nums[i]==nums[i+1]) i++;
+        }
+        vector<vector<int>>vec(st.begin(),st.end());
+        return vec;
+    }
+};
+
+3 4SUM
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        int n=nums.size();
+        vector<vector<int>>ans;
+        sort(nums.begin(),nums.end());
+
+        for(int a=0;a<n;a++)
+        {
+            for(int b=a+1;b<n;b++)
+            {
+                int c=b+1;
+                int d=n-1;
+                while(c<d)
+                {
+                    long long sum=nums[a];
+                    sum+=nums[b];
+                    sum+=nums[c];
+                    sum+=nums[d];
+                    if(sum<target)
+                    {
+                        c++;
+                    }
+                    else if(sum>target)
+                    {
+                        d--;
+                    }
+                    else
+                    {
+                        vector<int>v={nums[a],nums[b],nums[c],nums[d]};
+                        //if new quads then push to main vector
+                        if(find(ans.begin(),ans.end(),v)==ans.end()) 
+                        {
+                            ans.push_back(v);
+                        }
+                        c++;
+                        d--;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
+
+4.Spiral Matrix
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<int> result;
+        if (matrix.empty() || matrix[0].empty()) {
+            return result;
+        }
+        
+        int rows = matrix.size(), cols = matrix[0].size();
+        int left = 0, right = cols-1, top = 0, bottom = rows-1;
+        
+        while (left <= right && top <= bottom) {
+            for (int i = left; i <= right; i++) {
+                result.push_back(matrix[top][i]);
+            }
+            top++;
+            
+            for (int i = top; i <= bottom; i++) {
+                result.push_back(matrix[i][right]);
+            }
+            right--;
+            
+            if (top <= bottom) {
+                for (int i = right; i >= left; i--) {
+                    result.push_back(matrix[bottom][i]);
+                }
+                bottom--;
+            }
+            
+            if (left <= right) {
+                for (int i = bottom; i >= top; i--) {
+                    result.push_back(matrix[i][left]);
+                }
+                left++;
+            }
+        }
+        
+        return result;
+    }
+};
+
