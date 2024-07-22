@@ -1,0 +1,23 @@
+1.Minimum time to make rope colorful
+class Solution {
+public:
+    int minCost(string s, vector<int>& time) {
+        int ans=0;
+        int n=time.size();
+        for(int i=0;i<n-1;i++)
+        {
+            if(s[i]==s[i+1])
+            {
+                if(time[i]>time[i+1])
+                {
+                    ans+=time[i+1];
+                    time[i+1]=time[i];
+                }
+                else{
+                    ans+=time[i];
+                }
+            }
+        }
+        return ans;
+    }
+};
