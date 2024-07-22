@@ -20,4 +20,71 @@ public:
         }
         return ans;
     }
+5. Non overlapping intervals
+class Solution {
+public:
+     static bool cmp(vector<int>& a, vector<int>& b){
+        return a[1] < b[1];
+    }
+    int eraseOverlapIntervals(vector<vector<int>>& i) {
+        sort(i.begin(),i.end(),cmp);
+        int n=i.size();
+        int c=0;
+        for(auto &it:i)
+        cout<<it[0]<<it[1]<<" ";
+        cout<<endl;
+        for(int j=0;j<n-1;j++)
+        {
+            if(i[j][1]>i[j+1][0])
+            {
+                c++;
+                i[j+1][1]=i[j][1];
+            }
+            cout<<c<<" ";
+        }
+        return c;
+    }
 };
+
+
+2.Middle element of linked list
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+      ListNode* temp=head;
+      int count=0;
+      while(temp!=nullptr)
+      {
+          temp=temp->next;
+          count++;
+      }  
+      int n=count/2;
+      int i=0;
+      while(i<n)
+      {
+          head=head->next;
+          i++;
+      }
+      return head;
+        
+    }
+};
+
+3.Linked list cycle
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        auto walker = head, runner = head;
+        while (runner && runner->next)
+        {
+            walker = walker->next;
+            runner = runner->next->next;
+            if (walker == runner)
+                return true;
+        }
+        return false;
+
+    }
+};
+
+4.
